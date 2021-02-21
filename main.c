@@ -37,7 +37,7 @@ void VM_pushInStack(VM_t* vm, Object_t* item) {
 	vm -> stack[vm -> size++] = item;
 }
 
-Object_t* VM_popInStack(VM_t* vm) {
+Object_t* VM_popFromStack(VM_t* vm) {
 	assert(vm -> size > 0);
 	return vm -> stack[--vm -> size];
 }
@@ -45,6 +45,21 @@ Object_t* VM_popInStack(VM_t* vm) {
 Object_t* Object_new(VM_t* vm, ObjectType_t* type) {
 	Object_t* obj = (Object_t*)malloc(sizeof(Object_t));
 	obj -> type = type;
+	return obj;
+}
+
+void VM_pushInt(VM_t* vm, int intvalue) {
+	Object_t* obj = Object_new(vm, OBJ_INT);
+	obj -> value = intvalue;
+	VM_pushInStack(vm ,obj);
+}
+
+Object_t* VM_pushPair(VM_t* vm) {
+	Object_t* obj = Object_new(vm, OBJ_PAIR);
+	obj -> tail = VM_popFromStack(vm);
+	obj -> head = VM_popFromStack(vm);
+
+	VM_pushInStack(vm, obj);
 	return obj;
 }
 
