@@ -42,6 +42,12 @@ Object_t* VM_popInStack(VM_t* vm) {
 	return vm -> stack[--vm -> size];
 }
 
+Object_t* Object_new(VM_t* vm, ObjectType_t* type) {
+	Object_t* obj = (Object_t*)malloc(sizeof(Object_t));
+	obj -> type = type;
+	return obj;
+}
+
 int main() {
 	return 0;
 }
