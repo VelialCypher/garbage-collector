@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
+
+#define STACK_MAX 256
 
 typedef enum {
 	OBJ_INT,
@@ -17,6 +20,27 @@ typedef struct Object {
 		};
 	};
 } Object_t;
+
+typedef struct {
+	Object_t* stack[STACK_MAX];
+	int size;
+} VM_t;
+
+VM_t* VM_new() {
+	VM_t* vm = (VM_t*)malloc(sizeof(VM_t));
+	vm -> size = 0;
+	return vm;
+}
+
+void VM_pushInStack(VM_t* vm, Object_t* item) {
+	assert(vm -> size < STACK_MAX);
+	vm -> stack[vm -> size++] = item;
+}
+
+Object_t* VM_popInStack(VM_t* vm) {
+	assert(vm -> size > 0);
+	return vm -> stack[--vm -> size];
+}
 
 int main() {
 	return 0;
